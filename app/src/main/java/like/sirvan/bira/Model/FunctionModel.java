@@ -6,22 +6,27 @@ public class FunctionModel {
     String pass;
     String titleOne;
     String codeOne;
+    String colorOne;
     String titleTwo;
     String codeTwo;
+    String colorTwo;
     String titleThree;
     String codeThree;
+    String colorThree;
 
-
-    public FunctionModel(String name, String phone, String pass, String titleOne, String codeOne, String titleTwo, String codeTwo, String titleThree, String codeThree) {
+    public FunctionModel(String name, String phone, String pass, String titleOne, String codeOne, String colorOne, String titleTwo, String codeTwo, String colorTwo, String titleThree, String codeThree, String colorThree) {
         this.name = name;
         this.phone = phone;
         this.pass = pass;
         this.titleOne = titleOne;
         this.codeOne = codeOne;
+        this.colorOne = colorOne;
         this.titleTwo = titleTwo;
         this.codeTwo = codeTwo;
+        this.colorTwo = colorTwo;
         this.titleThree = titleThree;
         this.codeThree = codeThree;
+        this.colorThree = colorThree;
     }
 
     public String getName() {
@@ -64,6 +69,14 @@ public class FunctionModel {
         this.codeOne = codeOne;
     }
 
+    public String getColorOne() {
+        return colorOne;
+    }
+
+    public void setColorOne(String colorOne) {
+        this.colorOne = colorOne;
+    }
+
     public String getTitleTwo() {
         return titleTwo;
     }
@@ -80,6 +93,14 @@ public class FunctionModel {
         this.codeTwo = codeTwo;
     }
 
+    public String getColorTwo() {
+        return colorTwo;
+    }
+
+    public void setColorTwo(String colorTwo) {
+        this.colorTwo = colorTwo;
+    }
+
     public String getTitleThree() {
         return titleThree;
     }
@@ -94,5 +115,13 @@ public class FunctionModel {
 
     public void setCodeThree(String codeThree) {
         this.codeThree = codeThree;
+    }
+
+    public String getColorThree() {
+        return colorThree;
+    }
+
+    public void setColorThree(String colorThree) {
+        this.colorThree = colorThree;
     }
 }

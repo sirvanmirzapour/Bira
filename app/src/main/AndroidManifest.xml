@@ -22,7 +22,7 @@
 
         <activity
             android:name=".Activity.ActivityGetNumber"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true">

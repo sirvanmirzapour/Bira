@@ -8,12 +8,7 @@
     tools:context=".Activity.MainActivity">
 
 
-    <include
-        android:id="@+id/mainToolBar"
-        layout="@layout/main_toolbar" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/mainToolBar"
         android:id="@+id/rvFunction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

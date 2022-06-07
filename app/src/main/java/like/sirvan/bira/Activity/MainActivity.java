@@ -18,6 +18,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -47,6 +49,7 @@ import java.util.List;
 import java.util.Optional;
 
 import like.sirvan.bira.Adapter.FunctionAdapter;
+import like.sirvan.bira.App.MyAlertDialog;
 import like.sirvan.bira.Model.FunctionModel;
 import like.sirvan.bira.R;
 
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
    private FunctionAdapter adapter;
    private List<FunctionModel> models = new ArrayList<>();
    private LinearLayout llAddDevice;
+   private MyAlertDialog myAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,52 +68,37 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         Click();
-        DataToRecyclerView();
 
-      /*  Dexter.withContext(MainActivity.this)
-                .withPermission(Manifest.permission.SEND_SMS)
-                .withListener(new PermissionListener() {
-                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
-                        Log.d("sirvan","Granted");
-                    }
-                    @Override public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Log.d("sirvan","Denied");
-                    }
-                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        Log.d("sirvan","ShouldBeShown");
-                    }
-                }).check();
-                */
-
+        myAlertDialog = new MyAlertDialog(getApplicationContext());
 
     }
 
 
     private void init(){
         rvFunction = findViewById(R.id.rvFunction);
-        llAddDevice = findViewById(R.id.llAddDevice);
+      //  llAddDevice = findViewById(R.id.llAddDevice);
     }
 
     private void Click(){
-        llAddDevice.setOnClickListener(new View.OnClickListener() {
+      /*  llAddDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),ActivityGetNumber.class);
-                startActivity(i);
+               Intent i = new Intent(getApplicationContext(),ActivityGetNumber.class);
+              startActivity(i);
 
             }
-        });
+        });*/
     }
 
-    private void DataToRecyclerView(){
+    private void DataToRecyclerView(List<FunctionModel> data){
         LinearLayoutManager llmVertical = new LinearLayoutManager(this);
         llmVertical.setReverseLayout(true);
         rvFunction.setLayoutManager(llmVertical);
         rvFunction.setHasFixedSize(true);
         if(loadData() != null){
-            adapter = new FunctionAdapter(this,loadData());
+            adapter = new FunctionAdapter(this,data);
             rvFunction.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(),loadData().size()+"",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),data.size()+"",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -134,8 +123,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getData(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DataToRecyclerView(loadData());
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent i = new Intent(getApplicationContext(),ActivityGetNumber.class);
+                startActivity(i);
+                return true;
+            case R.id.action_settings:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
