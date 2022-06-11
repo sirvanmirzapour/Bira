@@ -48,50 +48,64 @@ public class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.MyHold
     public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int position) {
         myAlertDialog = new MyAlertDialog(context);
 
-        holder.txtName.setText(model.get(position).getName());
-        holder.rvTextViewFunctionOne.setText(model.get(position).getTitleOne());
-        holder.rvTextViewFunctionTwo.setText(model.get(position).getTitleTwo());
-        holder.rvTextViewFunctionThree.setText(model.get(position).getTitleThree());
+        String name = model.get(position).getName();
+        if (name.length() > 15) name = name.substring(0, 15);
 
-        gdDefaultOne.setColor(Color.parseColor(model.get(position).getColorOne()));
-        gdDefaultOne.setCornerRadius(50);
-        holder.rvLinearLayoutFunctionOne.setBackground(gdDefaultOne);
+        holder.txtName.setText(name);
 
-        gdDefaultTwo.setColor(Color.parseColor(model.get(position).getColorTwo()));
-        gdDefaultTwo.setCornerRadius(50);
-        holder.rvLinearLayoutFunctionTwo.setBackground(gdDefaultTwo);
-
-        gdDefaultThree.setColor(Color.parseColor(model.get(position).getColorThree()));
-        gdDefaultThree.setCornerRadius(50);
-        holder.rvLinearLayoutFunctionThree.setBackground(gdDefaultThree);
-
-        holder.rvLinearLayoutFunctionOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                myAlertDialog.Show("ارسال پیام برای دستگاه", model.get(position).getCodeOne(), model.get(position).getPhone());
-
+        if (model.get(position).getTitleOne() != null) {
+            String str = model.get(position).getTitleOne();
+            if (model.get(position).getTitleOne().length() > 10) {
+                str = model.get(position).getTitleOne().substring(0, 10);
             }
-        });
+            holder.rvTextViewFunctionOne.setText(str);
+            gdDefaultOne.setColor(Color.parseColor(model.get(position).getColorOne()));
+            gdDefaultOne.setCornerRadius(50);
+            holder.rvLinearLayoutFunctionOne.setBackground(gdDefaultOne);
 
-        holder.rvLinearLayoutFunctionTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                myAlertDialog.Show("ارسال پیام برای دستگاه", model.get(position).getCodeTwo(), model.get(position).getPhone());
-
-
+            holder.rvLinearLayoutFunctionOne.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myAlertDialog.Show("ارسال پیام برای دستگاه", model.get(position).getCodeOne(), model.get(position).getPhone());
+                }
+            });
+        }
+        if (model.get(position).getTitleTwo() != null) {
+            String str = model.get(position).getTitleTwo();
+            if (model.get(position).getTitleTwo().length() > 10) {
+                str = model.get(position).getTitleTwo().substring(0, 10);
             }
-        });
 
-        holder.rvLinearLayoutFunctionThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            holder.rvTextViewFunctionTwo.setText(str);
+            gdDefaultTwo.setColor(Color.parseColor(model.get(position).getColorTwo()));
+            gdDefaultTwo.setCornerRadius(50);
+            holder.rvLinearLayoutFunctionTwo.setBackground(gdDefaultTwo);
 
-                myAlertDialog.Show("ارسال پیام برای دستگاه", model.get(position).getCodeThree(), model.get(position).getPhone());
+            holder.rvLinearLayoutFunctionTwo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    myAlertDialog.Show("ارسال پیام برای دستگاه", model.get(position).getCodeTwo(), model.get(position).getPhone());
+                }
+            });
+        }
+        if (model.get(position).getTitleThree() != null) {
+            String str = model.get(position).getTitleThree();
+            if (model.get(position).getTitleThree().length() > 10) {
+                str = model.get(position).getTitleThree().substring(0, 10);
             }
-        });
+            holder.rvTextViewFunctionThree.setText(str);
+            gdDefaultThree.setColor(Color.parseColor(model.get(position).getColorThree()));
+            gdDefaultThree.setCornerRadius(50);
+            holder.rvLinearLayoutFunctionThree.setBackground(gdDefaultThree);
+            holder.rvLinearLayoutFunctionThree.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    myAlertDialog.Show("ارسال پیام برای دستگاه", model.get(position).getCodeThree(), model.get(position).getPhone());
+                }
+            });
+        }
     }
 
     @Override

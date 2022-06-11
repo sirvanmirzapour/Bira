@@ -1,15 +1,14 @@
 package like.sirvan.bira.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -25,17 +24,15 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
+import like.sirvan.bira.App.G;
 import like.sirvan.bira.Model.FunctionModel;
 import like.sirvan.bira.R;
 
 public class ActivityGetNumber extends AppCompatActivity {
 
-    private EditText EdtName,
-            EdtPhone,
-            EdtNameOne,
-            EdtNameTwo,
-            EdtNameThree;
+    private EditText EdtName, EdtPhone, EdtNameOne, EdtNameTwo, EdtNameThree;
     private LinearLayout llCodeOfFunctionOne, llCodeOfFunctionTwo, llCodeOfFunctionThree;
     private LinearLayout llColorOfFunctionOne, llColorOfFunctionTwo, llColorOfFunctionThree;
     private TextView txtCodeOfFunctionOne, txtCodeOfFunctionTwo, txtCodeOfFunctionThree;
@@ -61,8 +58,13 @@ public class ActivityGetNumber extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_number);
         init();
+        setTypeFace();
         click();
         colorPicker();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("اضافه کردن");
 
     }
 
@@ -82,7 +84,7 @@ public class ActivityGetNumber extends AppCompatActivity {
         llCodeOfFunctionOne = findViewById(R.id.llCodeOfFunctionOne);
         txtCodeOfFunctionOne = findViewById(R.id.txtCodeOfFunctionOne);
         llColorOfFunctionOne = findViewById(R.id.llColorOfFunctionOne);
-        txtCodeOfFunctionOne = findViewById(R.id.txtCodeOfFunctionOne);
+        txtColorOfFunctionOne = findViewById(R.id.txtColorOfFunctionOne);
 
         llCodeOfFunctionTwo = findViewById(R.id.llCodeOfFunctionTwo);
         txtCodeOfFunctionTwo = findViewById(R.id.txtCodeOfFunctionTwo);
@@ -133,6 +135,29 @@ public class ActivityGetNumber extends AppCompatActivity {
                 "*14#",
                 "*15#",
         };
+
+
+        colorOne = "#1A237E";
+        colorTwo = "#1A237E";
+        colorThree="#1A237E";
+
+    }
+
+    private void setTypeFace() {
+
+        EdtName.setTypeface(G.faceBold);
+        EdtPhone.setTypeface(G.faceBold);
+        EdtNameOne.setTypeface(G.faceBold);
+        EdtNameTwo.setTypeface(G.faceBold);
+        EdtNameThree.setTypeface(G.faceBold);
+
+        txtCodeOfFunctionOne.setTypeface(G.faceBold);
+        txtCodeOfFunctionTwo.setTypeface(G.faceBold);
+        txtCodeOfFunctionThree.setTypeface(G.faceBold);
+
+        txtColorOfFunctionOne.setTypeface(G.faceBold);
+        txtColorOfFunctionTwo.setTypeface(G.faceBold);
+        txtColorOfFunctionThree.setTypeface(G.faceBold);
 
 
     }
@@ -202,13 +227,11 @@ public class ActivityGetNumber extends AppCompatActivity {
     }
 
     private boolean getData() {
-
-        String name = EdtName.getText().toString();
-        String phone = EdtPhone.getText().toString();
-        String nameOne = EdtNameOne.getText().toString();
-        String nameTwo = EdtNameTwo.getText().toString();
-        String nameThree = EdtNameThree.getText().toString();
-
+        String name;
+        String phone;
+        String nameOne;
+        String nameTwo;
+        String nameThree;
         ArrayList<FunctionModel> model;
         if (loadData() != null) {
             model = new ArrayList<>(loadData());
@@ -216,9 +239,30 @@ public class ActivityGetNumber extends AppCompatActivity {
             model = new ArrayList<>();
         }
 
-        model.add(new FunctionModel(name, phone, "1234", nameOne, "codeOne",colorOne, nameTwo, "codeTwo", colorTwo,nameThree, "codeThree",colorThree));
-        SharedPreferences sharedPreferences = getSharedPreferences("listFunction", MODE_PRIVATE);
+        if (!EdtName.getText().toString().equals("")) {
+            if (EdtName.getText().toString().length() <= 10) {
+                if (EdtPhone.getText().toString().length() == 11 && isMobileNumber(EdtPhone.getText().toString())) {
 
+                    name = EdtName.getText().toString();
+                    phone = EdtPhone.getText().toString();
+                    nameOne = EdtNameOne.getText().toString();
+                    nameTwo = EdtNameTwo.getText().toString();
+                    nameThree = EdtNameThree.getText().toString();
+
+                    model.add(new FunctionModel(name, phone, "1234", nameOne, "codeOne", colorOne, nameTwo, "codeTwo", colorTwo, nameThree, "codeThree", colorThree));
+
+
+                } else
+                    Toast.makeText(getApplicationContext(), "شماره موبایل صحیح نیست", Toast.LENGTH_LONG).show();
+
+            } else
+                Toast.makeText(getApplicationContext(), "نام خیلی طولانی است", Toast.LENGTH_LONG).show();
+
+        } else
+            Toast.makeText(getApplicationContext(), "نام نباید خالی باشد", Toast.LENGTH_LONG).show();
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("listFunction", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(model);
@@ -287,10 +331,17 @@ public class ActivityGetNumber extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     colorPicker();
-                    colorOne = hex;
                     llSelectColor.setVisibility(View.GONE);
                     GradientDrawable gdDefault = new GradientDrawable();
-                    gdDefault.setColor(Color.parseColor(hex));
+                    try {
+                        gdDefault.setColor(Color.parseColor(hex));
+                        txtColorOfFunctionOne.setTextColor(Color.parseColor("#000000"));
+                        colorOne = hex;
+                    }catch (Exception e){
+                        gdDefault.setColor(Color.parseColor("#000000"));
+                        txtColorOfFunctionOne.setTextColor(Color.parseColor("#ffffff"));
+                        colorOne = hex;
+                    }
                     gdDefault.setCornerRadius(50);
                     llColorOfFunctionOne.setBackground(gdDefault);
                 }
@@ -307,7 +358,16 @@ public class ActivityGetNumber extends AppCompatActivity {
                     colorTwo = hex;
                     llSelectColor.setVisibility(View.GONE);
                     GradientDrawable gdDefault = new GradientDrawable();
-                    gdDefault.setColor(Color.parseColor(hex));
+                    try {
+                        gdDefault.setColor(Color.parseColor(hex));
+                        txtColorOfFunctionTwo.setTextColor(Color.parseColor("#000000"));
+                        colorOne = hex;
+                    }catch (Exception e){
+                        gdDefault.setColor(Color.parseColor("#000000"));
+                        txtColorOfFunctionTwo.setTextColor(Color.parseColor("#ffffff"));
+                        colorOne = hex;
+                    }
+
                     gdDefault.setCornerRadius(50);
                     llColorOfFunctionTwo.setBackground(gdDefault);
                 }
@@ -324,7 +384,16 @@ public class ActivityGetNumber extends AppCompatActivity {
                     colorThree = hex;
                     llSelectColor.setVisibility(View.GONE);
                     GradientDrawable gdDefault = new GradientDrawable();
-                    gdDefault.setColor(Color.parseColor(hex));
+                    try {
+                        gdDefault.setColor(Color.parseColor(hex));
+                        txtColorOfFunctionThree.setTextColor(Color.parseColor("#000000"));
+                        colorOne = hex;
+                    }catch (Exception e){
+                        gdDefault.setColor(Color.parseColor("#000000"));
+                        txtColorOfFunctionThree.setTextColor(Color.parseColor("#ffffff"));
+                        colorOne = hex;
+                    }
+
                     gdDefault.setCornerRadius(50);
                     llColorOfFunctionThree.setBackground(gdDefault);
                 }
@@ -338,27 +407,48 @@ public class ActivityGetNumber extends AppCompatActivity {
 
         imgColorPicker.setDrawingCacheEnabled(true);
         imgColorPicker.buildDrawingCache(true);
-try {
-    imgColorPicker.setOnTouchListener(new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                bitmap = imgColorPicker.getDrawingCache();
-                int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
-                int r = Color.red(pixel);
-                int g = Color.green(pixel);
-                int b = Color.blue(pixel);
+        try {
+            imgColorPicker.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                        bitmap = imgColorPicker.getDrawingCache();
+                        int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
+                        int r = Color.red(pixel);
+                        int g = Color.green(pixel);
+                        int b = Color.blue(pixel);
 
-                hex = "#" + Integer.toHexString((pixel));
-                viewColor.setBackgroundColor(Color.rgb(r, g, b));
+                        hex = "#" + Integer.toHexString((pixel));
+                        viewColor.setBackgroundColor(Color.rgb(r, g, b));
 
 
-            }
+                    }
+                    return true;
+                }
+            });
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private boolean isMobileNumber(String mobile_number) {
+        if (mobile_number != null && mobile_number.startsWith("0")) {
             return true;
         }
-    });
+        return false;
 
-}catch (Exception e){}
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+              finish();
+              return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

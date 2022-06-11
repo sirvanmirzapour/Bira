@@ -94,7 +94,7 @@
                             android:id="@+id/txtCodeOfFunctionOne"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="انتخاب کارکرد" />
+                            android:text= "انتخاب کارکرد کلید یک" />
 
                     </LinearLayout>
 
@@ -112,7 +112,7 @@
                             android:id="@+id/txtColorOfFunctionOne"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="انتخاب کارکرد" />
+                            android:text="انتخاب رنگ پس زمینه کلید یک" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -137,7 +137,7 @@
                         android:drawableEnd="@drawable/ic_baseline_drag_indicator_24"
                         android:ems="10"
                         android:gravity="start"
-                        android:hint=" عنوان کلید یک"
+                        android:hint=" عنوان کلید دوم"
                         android:textColor="#000"
                         android:textSize="14sp" />
 
@@ -154,7 +154,7 @@
                             android:id="@+id/txtCodeOfFunctionTwo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="انتخاب کارکرد" />
+                            android:text=" انتخاب کارکرد کلید دوم" />
 
                     </LinearLayout>
 
@@ -171,7 +171,7 @@
                             android:id="@+id/txtColorOfFunctionTwo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="انتخاب رنگ" />
+                            android:text="انتخاب رنگ پس زمینه کلید دوم" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -196,7 +196,7 @@
                         android:drawableEnd="@drawable/ic_baseline_drag_indicator_24"
                         android:ems="10"
                         android:gravity="start"
-                        android:hint=" عنوان کلید یک"
+                        android:hint=" عنوان کلید سوم"
                         android:textColor="#000"
                         android:textSize="14sp" />
 
@@ -213,7 +213,7 @@
                             android:id="@+id/txtCodeOfFunctionThree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="انتخاب کارکرد" />
+                            android:text=" انتخاب کارکرد سوم" />
 
                     </LinearLayout>
 
@@ -231,7 +231,7 @@
                             android:id="@+id/txtColorOfFunctionThree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="انتخاب کارکرد" />
+                            android:text="انتخاب رنگ پس زمینه کلید سوم" />
 
                     </LinearLayout>
                 </LinearLayout>

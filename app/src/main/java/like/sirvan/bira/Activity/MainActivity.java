@@ -46,6 +46,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import like.sirvan.bira.Adapter.FunctionAdapter;
@@ -55,56 +56,75 @@ import like.sirvan.bira.R;
 
 public class MainActivity extends AppCompatActivity {
 
-   private  PermissionListener permissionListener;
-   private RecyclerView rvFunction;
-   private FunctionAdapter adapter;
-   private List<FunctionModel> models = new ArrayList<>();
-   private LinearLayout llAddDevice;
-   private MyAlertDialog myAlertDialog;
+    private PermissionListener permissionListener;
+    private RecyclerView rvFunction;
+    private FunctionAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        Click();
 
-        myAlertDialog = new MyAlertDialog(getApplicationContext());
 
     }
 
 
-    private void init(){
+    private void init() {
         rvFunction = findViewById(R.id.rvFunction);
-      //  llAddDevice = findViewById(R.id.llAddDevice);
     }
 
-    private void Click(){
-      /*  llAddDevice.setOnClickListener(new View.OnClickListener() {
+    private void selectPhone() {
+
+        ArrayList<FunctionModel> temp = loadData();
+        int size = Objects.requireNonNull(temp).size();
+        CharSequence[] mAlertItem = new CharSequence[size];
+
+        for (int i = 0; i < size; i++) {
+            mAlertItem[i] = temp.get(i).getPhone();
+
+        }
+
+        Alert(mAlertItem);
+
+    }
+
+    private void Alert(CharSequence[] chr) {
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this, R.style.RightJustifyTextView);
+        builder.setTitle("تنظیمات کدام شماره را تغییر میدهید؟");
+        builder.setSingleChoiceItems(chr, 0, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-               Intent i = new Intent(getApplicationContext(),ActivityGetNumber.class);
-              startActivity(i);
+            public void onClick(DialogInterface dialogInterface, int item) {
 
+                Intent i = new Intent(MainActivity.this, SettingActivity.class);
+                i.putExtra("phone", chr[item]);
+                startActivity(i);
+                dialogInterface.dismiss();
             }
-        });*/
+        });
+        builder.setBackground(this.getResources().getDrawable(R.drawable.alert_dialog_bg, null));
+        builder.show();
+
     }
 
-    private void DataToRecyclerView(List<FunctionModel> data){
+    private void DataToRecyclerView(List<FunctionModel> data) {
         LinearLayoutManager llmVertical = new LinearLayoutManager(this);
         llmVertical.setReverseLayout(true);
         rvFunction.setLayoutManager(llmVertical);
         rvFunction.setHasFixedSize(true);
-        if(loadData() != null){
-            adapter = new FunctionAdapter(this,data);
+        if (loadData() != null) {
+            adapter = new FunctionAdapter(this, data);
             rvFunction.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(),data.size()+"",Toast.LENGTH_LONG).show();
+
         }
+
 
     }
 
 
-    private ArrayList<FunctionModel> loadData(){
+    private ArrayList<FunctionModel> loadData() {
 
         ArrayList<FunctionModel> model;
         SharedPreferences sharedPreferences = getSharedPreferences("listFunction", MODE_PRIVATE);
@@ -141,11 +161,11 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent i = new Intent(getApplicationContext(),ActivityGetNumber.class);
+                Intent i = new Intent(getApplicationContext(), ActivityGetNumber.class);
                 startActivity(i);
                 return true;
             case R.id.action_settings:
-
+                selectPhone();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
